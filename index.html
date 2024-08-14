@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Personal Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #e0e0e0;
+            scroll-behavior: smooth;
+        }
+
+        header {
+            background-color: #003366;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.8rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        header .tagline {
+            margin-top: 10px;
+            font-size: 1.3rem;
+            font-weight: 300;
+        }
+
+        nav {
+            background: #004080;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        nav a:hover, nav a.active {
+            background-color: #0066cc;
+            transition: background-color 0.3s ease;
+        }
+
+        section {
+            padding: 80px 0;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease-in-out;
+        }
+
+        section.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #about {
+            background-color: #fff;
+            text-align: center;
+            padding: 60px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        #about .about-content {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        #about img {
+            max-width: 300px;
+            border-radius: 50%;
+            border: 5px solid #004080;
+            transition: transform 0.3s ease;
+        }
+
+        #about img:hover {
+            transform: scale(1.1);
+        }
+
+        #about p {
+            text-align: left;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        #skills {
+            background-color: #003366;
+            color: #fff;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        #skills .skills-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        #skills .skills-list li {
+            position: relative;
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #0066cc;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        #skills .skills-list li:hover {
+            transform: scale(1.1);
+            background-color: #004080;
+        }
+
+        #skills .skills-list li::after {
+            content: 'Click Here';
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            color: #ddd;
+            display: none;
+        }
+
+        #skills .skills-list li:hover::after {
+            display: block;
+        }
+
+        #projects {
+            background-color: #f9f9f9;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        #projects .projects-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        #projects .project-item {
+            background-color: #fff;
+            padding: 20px;
+            margin: 15px;
+            border-radius: 8px;
+            width: calc(30% - 30px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        #projects .project-item img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        #projects .project-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        #resume {
+            background-color: #003366;
+            color: #fff;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        #resume .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background-color: #004080;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        #resume .btn:hover {
+            background-color: #0066cc;
+        }
+
+        #contact {
+            background-color: #fff;
+            text-align: center;
+            padding: 60px 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        footer {
+            background-color: #004080;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Typewriter effect */
+        .typewriter {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid #333;
+            animation: typing 4s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: black; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed-top">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#resume">Resume</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <h1>Your Name</h1>
+            <p class="tagline">Web Developer | Designer | Coder</p>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="about-content">
+                <img src="D:\KEC\0C5A3803.JPG" alt="Your Photo">
+                <div>
+                    <h2>About Me</h2>
+                    <p id="about-text" class="typewriter"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="container">
+            <h2>My Skills</h2>
+            <ul class="skills-list">
+                <li data-bs-toggle="offcanvas" data-bs-target="#skill1" aria-controls="skill1">HTML & CSS</li>
+                <li data-bs-toggle="offcanvas" data-bs-target="#skill2" aria-controls="skill2">JavaScript</li>
+                <li data-bs-toggle="offcanvas" data-bs-target="#skill3" aria-controls="skill3">React</li>
+                <li data-bs-toggle="offcanvas" data-bs-target="#skill4" aria-controls="skill4">Node.js</li>
+                <li data-bs-toggle="offcanvas" data-bs-target="#skill5" aria-controls="skill5">Git & GitHub</li>
+                <li data-bs-toggle="offcanvas" data-bs-target="#skill6" aria-controls="skill6">Bootstrap</li>
+            </ul>
+
+            <!-- Offcanvas Skills -->
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="skill1" aria-labelledby="skill1Label">
+                <div class="offcanvas-header">
+                    <h5 id="skill1Label">HTML & CSS</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <p>Proficient in creating responsive and visually appealing web pages using HTML and CSS. Able to implement modern design principles and ensure cross-browser compatibility.</p>
+                </div>
+            </div>
+
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="skill2" aria-labelledby="skill2Label">
+                <div class="offcanvas-header">
+                    <h5 id="skill2Label">JavaScript</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <p>Experienced in JavaScript for dynamic web development. Skilled in ES6+ features, DOM manipulation, and asynchronous programming with promises and async/await.</p>
+                </div>
+            </div>
+
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="skill3" aria-labelledby="skill3Label">
+                <div class="offcanvas-header">
+                    <h5 id="skill3Label">React</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <p>Experienced with React for building interactive user interfaces. Proficient in using hooks, managing state, and optimizing component performance.</p>
+                </div>
+            </div>
+
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="skill4" aria-labelledby="skill4Label">
+                <div class="offcanvas-header">
+                    <h5 id="skill4Label">Node.js</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <p>Proficient in building server-side applications with Node.js. Skilled in using Express for routing, handling middleware, and working with databases.</p>
+                </div>
+            </div>
+
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="skill5" aria-labelledby="skill5Label">
+                <div class="offcanvas-header">
+                    <h5 id="skill5Label">Git & GitHub</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <p>Experienced in version control with Git and collaborative workflows using GitHub. Proficient in branching, merging, and resolving conflicts.</p>
+                </div>
+            </div>
+
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="skill6" aria-labelledby="skill6Label">
+                <div class="offcanvas-header">
+                    <h5 id="skill6Label">Bootstrap</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <p>Skilled in using Bootstrap to build responsive and mobile-first websites. Familiar with its components, utilities, and customization options.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <h2>My Projects</h2>
+            <div class="projects-grid">
+                <div class="project-item" data-bs-toggle="offcanvas" data-bs-target="#project1" aria-controls="project1">
+                    <img src="C:\Users\rathi\Downloads\download (1).jpeg" alt="Project 1">
+                    <h3><b>Wool Application for Farmers</b></h3>
+                    <p>Click Here!!.</p>
+                </div>
+                <div class="project-item" data-bs-toggle="offcanvas" data-bs-target="#project2" aria-controls="project2">
+                    <img src="C:\Users\rathi\Downloads\Virtual-Reality.webp" alt="Project 2">
+                    <h3><b>VR Hall Booking</b></h3>
+                    <p>Click Here!!</p>
+                </div>
+                <div class="project-item" data-bs-toggle="offcanvas" data-bs-target="#project3" aria-controls="project3">
+                    <img src="C:\Users\rathi\Downloads\CNF.png" alt="Project 3">
+                    <h3><b>A CNF Table</b></h3>
+                    <p>Click Here!!</p>
+                </div>
+            </div>
+
+            <!-- Offcanvas Projects -->
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="project1" aria-labelledby="project1Label">
+                <div class="offcanvas-header">
+                    <h5 id="project1Label">Project 1</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <p><b>Farmers' App for Wool Monitoring</b><br>
+                        Short Summary:
+                    </br>
+                        The purpose of the Wool Monitoring app is to help farmers manage and keep an eye on the quantity, quality, and market value of wool produced on their properties. With the help of this app, you can keep tabs on wool production, document fiber properties, and guarantee the best possible wool grading and pricing. Farmers can improve the way they produce wool, keep track of their records, and decide whether to sell their wool on the open market by using this app.
+                        Modules of operation:
+User Verification:
+
+Sign up or log in: Safe access to the application featuring login and registration options for farmers.
+Profile of the User: Control the choices and details of farmers.
+Inventory Control for Wool:
+
+Wool Batch Entry: Enter the weight, fiber length, and micron count of each fresh batch of wool.
+Wool Grading: Based on industry norms, wool grades can be entered manually or automatically.
+Batch History: Access and handle previous information for every batch of wool.
+Observation and Evaluation:
+
+Monitoring and evaluating fiber properties including length, strength, and micron count is part of the quality analysis process.
+Get up-to-date wool market information to gain insight into pricing patterns.
+
+                        </p>
+                </div>
+            </div>
+
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="project2" aria-labelledby="project2Label">
+                <div class="offcanvas-header">
+                    <h5 id="project2Label">Project 2</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <p><b>VR Hall Booking App: Short Description and Working Modules</b>
+                        <br>
+                        <b>Short Description:</b>
+                        The VR Hall Booking app is designed to streamline the process of reserving Virtual Reality (VR) halls for various events, workshops, or recreational purposes. The app offers a user-friendly interface for customers to view available VR halls, select their preferred time slots, and complete bookings. It ensures a seamless experience by integrating payment processing and providing real-time updates on hall availability.
+                    </br>
+                    <br>
+                        <b>Working Modules:</b>
+                    </br>
+                    <br>  
+                        1. <b>User Registration & Login:</b>
+                           - Users can create an account or log in with existing credentials.
+                           - Includes password recovery and social media login options.
+                        </br>
+                           <br>
+                        2. <b>Hall Selection:</b>
+                           - Users can browse and view detailed information about available VR halls.
+                           - Halls can be filtered based on capacity, amenities, and location.
+                        </br>
+                           <br>
+                        3. <b>Booking Management:</b>
+                           - Allows users to select preferred date and time slots.
+                           - Provides a calendar view for easier date selection.
+                           - Shows real-time availability status.
+                        </br>
+                           <br>
+                        4. <b>Payment Integration:</b>
+                           - Secure payment gateway for processing bookings.
+                           - Supports multiple payment methods like credit/debit cards, digital wallets, and bank transfers.
+                           - Sends payment confirmation and receipt to users.
+                        </br>
+                           <br>
+                        5. <b>Admin Dashboard:</b>
+                           - Admins can manage hall listings, update availability, and monitor bookings.
+                           - Includes analytics and reporting tools for tracking usage and revenue.
+                           - Provides the ability to manage user accounts and handle cancellations or refunds.
+                        </br>
+                           <br>
+                        6. <b>Notifications & Alerts:</b>
+                           - Sends booking confirmations, reminders, and updates via email or SMS.
+                           - Alerts users of any changes in their booking or hall availability.
+                        </br>
+                           <br>
+                        7. <b>Feedback & Support:</b>
+                           - Users can rate their experience and provide feedback after using the VR hall.
+                           - Integrated support system for handling user inquiries and issues. 
+                        </br>
+                        This app offers a comprehensive solution for both users and administrators, ensuring efficient management of VR hall bookings.</p>
+                </div>
+            </div>
+
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="project3" aria-labelledby="project3Label">
+                <div class="offcanvas-header">
+                    <h5 id="project3Label">Project 3</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <p><b><br>CNF Table: Short Description and Working Modules</br></b>
+
+                        <b><br>Short Description:</br></b>
+                        The CNF (Context-Free Grammar in Chomsky Normal Form) Table is a tool designed to assist in the analysis and parsing of context-free grammars by converting them into Chomsky Normal Form. CNF is a standardized form of grammar that simplifies the parsing process, making it easier to apply algorithms like the CYK (Cocke-Younger-Kasami) parsing algorithm. This tool is especially useful for students, educators, and developers working on compiler design, formal language theory, and related fields.
+                        
+                        <b><br>Working Modules:</br></b>
+                        
+                        <br>1. <b>Grammar Input Module:</b></br>
+                           - Users can input a context-free grammar (CFG) in a user-friendly format.
+                           - Supports multiple rules and productions.
+                        
+                           <br>2. <b>Grammar Conversion Module:</b></br>
+                           - Converts the input CFG into Chomsky Normal Form (CNF).
+                           - Simplifies the grammar by removing null productions, unit productions, and unnecessary symbols.
+                        
+                           <br>3. <b>Parsing Table Generation:</b></br>
+                           - Generates a CNF table that shows the transformation of each production rule.
+                           - Provides detailed steps of the conversion process for educational purposes.
+                        
+                           <br>4. <b>Validation Module:</b></br>
+                           - Validates the input grammar to ensure it meets the requirements of a context-free grammar.
+                           - Checks for common errors and provides suggestions for corrections.
+                        
+                           <br>5. <b>CYK Algorithm Integration:</b></br>
+                           - Integrates the CYK parsing algorithm to demonstrate the application of CNF in parsing strings.
+                           - Users can input strings to see how they are parsed using the CNF table.
+                        
+                           <br>6. <b>Export & Reporting:</b></br>
+                           - Allows users to export the CNF table and related data in various formats (e.g., PDF, CSV).
+                           - Generates reports detailing the grammar conversion and parsing process.
+                        
+                           <br>7. <b>User Interface & Visualization:</b></br>
+                           - Provides a clear and intuitive interface for users to interact with the CNF table.
+                           - Includes visual aids to help users understand the grammar conversion and parsing process.
+                        
+                        This tool serves as both an educational resource and a practical application for those working with context-free grammars and their transformations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resume Section -->
+    <section id="resume">
+        <div class="container">
+            <h2>My Resume</h2>
+            <p>Download my resume to learn more about my work experience, skills, and education.</p>
+            <a href="resume.pdf" class="btn" download>Download Resume</a>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2>Contact Me</h2>
+            <p>If you have any questions or would like to get in touch, please fill out the form below or reach me through social media.</p>
+            <form style="max-width: 600px; margin: 0 auto; background-color: #f9f9f9; padding: 30px; border-radius: 10px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);">
+                <div class="mb-3" style="margin-bottom: 20px;">
+                    <label for="name" class="form-label" style="font-weight: bold; font-size: 1.1rem; color: #333;">Name</label>
+                    <input type="text" class="form-control" id="name" required style="border: 2px solid #0066cc; padding: 10px; border-radius: 5px; font-size: 1rem;">
+                </div>
+                <div class="mb-3" style="margin-bottom: 20px;">
+                    <label for="email" class="form-label" style="font-weight: bold; font-size: 1.1rem; color: #333;">Email address</label>
+                    <input type="email" class="form-control" id="email" required style="border: 2px solid #0066cc; padding: 10px; border-radius: 5px; font-size: 1rem;">
+                </div>
+                <div class="mb-3" style="margin-bottom: 20px;">
+                    <label for="message" class="form-label" style="font-weight: bold; font-size: 1.1rem; color: #333;">Message</label>
+                    <textarea class="form-control" id="message" rows="4" required style="border: 2px solid #0066cc; padding: 10px; border-radius: 5px; font-size: 1rem;"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="background-color: #004080; border: none; padding: 12px 20px; font-size: 1.2rem; font-weight: bold; border-radius: 5px; width: 100%; transition: background-color 0.3s ease;">
+                    Send Message
+                </button>
+            </form>
+            
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Your Name. All rights reserved.</p>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script>
+        // Typewriter effect for About Me section
+const aboutText = "Welcome to my portfolio! I am a passionate web developer";
+let index = 0;
+
+function typeWriter() {
+    if (index < aboutText.length) {
+        document.getElementById("about-text").innerHTML += aboutText.charAt(index);
+        index++;
+        setTimeout(typeWriter, 50);
+    }
+}
+
+typeWriter();
+
+// Scroll animations
+document.addEventListener("DOMContentLoaded", function() {
+    const sections = document.querySelectorAll("section");
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("in-view");
+            } else {
+                entry.target.classList.remove("in-view");
+            }
+        });
+    }, { threshold: 0.1 });
+    sections.forEach(section => observer.observe(section));
+});
+
+    </script>
+</body>
+</html>
+
